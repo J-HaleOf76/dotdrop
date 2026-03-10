@@ -41,8 +41,8 @@ $ dotdrop import ~/.xinitrc
 ```
 
 You can explicitely provide the key dotdrop should use for the dotfile entry
-in the config file with the `-K --dkey` cli switch. Note that the provided 
-string will be sanitized for yaml. Also if the key already exists, 
+in the config file with the `-K --dkey` cli switch. Note that the provided
+string will be sanitized for yaml. Also if the key already exists,
 it will be appended with `_<incremental_number>` to avoid duplicates.
 
 If the key is not provided, it will be automatically created based on the
@@ -286,38 +286,50 @@ Also, if you find it useful and have been able to successfully speed up your ope
 
 ## Environment variables
 
-The following environment variables can be used to specify different CLI options.
-Note that CLI switches take precedence over environment variables (except for `DOTDROP_FORCE_NODEBUG`)
+The following environment variables can be used to specify different CLI options and change behaviors.
+Note that CLI switches take precedence over environment variables
 
-* `DOTDROP_PROFILE`: `-p`/`--profile`
+`DOTDROP_PROFILE`: `-p`/`--profile`
 ```bash
 export DOTDROP_PROFILE="my-fancy-profile"
 ```
-* `DOTDROP_CONFIG`: `-c`/`--cfg`
+
+`DOTDROP_CONFIG`: `-c`/`--cfg`
 ```bash
 export DOTDROP_CONFIG="/home/user/dotdrop/config.yaml"
 ```
-* `DOTDROP_NOBANNER`: `-b`/`--no-banner`
+
+`DOTDROP_NOBANNER`: `-b`/`--no-banner`
 ```bash
 export DOTDROP_NOBANNER=
 ```
-* `DOTDROP_DEBUG`: `-V`/`--verbose`
+
+`DOTDROP_DEBUG`: `-V`/`--verbose`
 ```bash
 export DOTDROP_DEBUG=
 ```
-* `DOTDROP_FORCE_NODEBUG`: disable debug output even if `-V`/`--verbose` is provided or `DOTDROP_DEBUG` is set
+
+`DOTDROP_FORCE_NODEBUG`: disable debug output even if `-V`/`--verbose` is provided or `DOTDROP_DEBUG` is set
 ```bash
 export DOTDROP_FORCE_NODEBUG=
 ```
-* `DOTDROP_TMPDIR`: defines a temporary directory for dotdrop to use for its operations instead of using a system generated one
+
+`DOTDROP_TMPDIR`: defines a temporary directory for dotdrop to use for its operations instead of using a system generated one
 ```bash
 export DOTDROP_TMPDIR="/tmp/dotdrop-tmp"
 ```
-* `DOTDROP_WORKDIR`: overwrite the `workdir` defined in the config
+
+`DOTDROP_WORKDIR`: overwrite the `workdir` defined in the config
 ```bash
 export DOTDROP_WORKDIR="/tmp/dotdrop-workdir"
 ```
-* `DOTDROP_WORKERS`: overwrite the `-w`/`--workers` cli argument
+
+`DOTDROP_WORKERS`: overwrite the `-w`/`--workers` cli argument
 ```bash
 export DOTDROP_WORKERS="10"
+```
+
+`DOTDROP_MIME_TEXT`: comma separated list of mime type to treat as text during templating
+```bash
+export DOTDROP_MIME_TEXT=application/x-wine-extension-ini
 ```

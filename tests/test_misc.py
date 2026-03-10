@@ -301,12 +301,20 @@ class TestTemplateGen(unittest.TestCase):
 
     def test_is_text(self):
         """test is_text"""
-        self.assertTrue(Templategen._is_text('empty'))
-        self.assertTrue(Templategen._is_text('json'))
-        self.assertTrue(Templategen._is_text('javascript'))
-        self.assertTrue(Templategen._is_text('ecmascript'))
-        self.assertTrue(Templategen._is_text('text'))
-        self.assertFalse(Templategen._is_text('binary'))
+        tmpl = Templategen()
+        self.assertTrue(tmpl._is_text('empty'))
+        self.assertTrue(tmpl._is_text('json'))
+        self.assertTrue(tmpl._is_text('javascript'))
+        self.assertTrue(tmpl._is_text('ecmascript'))
+        self.assertTrue(tmpl._is_text('text'))
+        self.assertFalse(tmpl._is_text('binary'))
+
+    @patch.dict(os.environ, {"DOTDROP_MIME_TEXT": "application/x-wine-extension-ini"})
+    def test_is_text_force(self):
+        """test is_text with env var"""
+        tmpl = Templategen()
+        istext = tmpl._is_text("application/x-wine-extension-ini")
+        self.assertTrue(istext)
 
     def test_handle_bin_file(self):
         """test handle binary file"""

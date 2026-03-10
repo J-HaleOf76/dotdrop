@@ -33,12 +33,15 @@ LOG = Logger()
 DICT_ENV_NAME = 'env'
 DICT_VARS_NAME = '_vars'
 
+ENV_DOTDROP_MIME_TEXT = 'DOTDROP_MIME_TEXT'
+
 
 class Templategen:
     """dotfile templater"""
 
     def __init__(self, base='.', variables=None,
-                 func_file=None, filter_file=None, debug=False):
+                 func_file=None, filter_file=None,
+                 debug=False):
         """constructor
         @base: directory path where to search for templates
         @variables: dictionary of variables for templates
@@ -51,6 +54,17 @@ class Templategen:
         self.log = Logger(debug=self.debug)
         self.log.dbg('loading templategen')
         self.variables = {}
+        self.mime_text = []
+        if ENV_DOTDROP_MIME_TEXT in os.environ:
+            # retrieve a comma separated list of
+            # mime types to treat as text
+            mimes = os.environ[ENV_DOTDROP_MIME_TEXT]
+            try:
+                mimes = mimes.split(',')
+                self.mime_text = [mime.strip().lower() for mime in mimes]
+            except Exception as e:
+                self.log.warn(f'{ENV_DOTDROP_MIME_TEXT} parsing: {e}')
+                self.mime_text = []
         loader1 = FileSystemLoader(self.base)
         loader2 = FunctionLoader(self._template_loader)
         loader = ChoiceLoader([loader1, loader2])
@@ -221,8 +235,7 @@ class Templategen:
             return self._handle_bin_file(src)
         return self._handle_text_file(src)
 
-    @classmethod
-    def _is_text(cls, fileoutput):
+    def _is_text(self, fileoutput):
         """return if `file -b` output is ascii text"""
         out = fileoutput.lower()
         if out.startswith('text'):
@@ -235,6 +248,10 @@ class Templategen:
             return True
         if 'ecmascript' in out:
             return True
+        if self.mime_text:
+            if out in self.mime_text:
+                self.log.dbg('mime type forced to \"text\" due to type')
+                return True
         return False
 
     def _template_loader(self, relpath):
