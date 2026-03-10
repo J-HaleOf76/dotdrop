@@ -62,9 +62,13 @@ class Templategen:
             try:
                 mimes = mimes.split(',')
                 self.mime_text = [mime.strip().lower() for mime in mimes]
-            except Exception as e:
+            except TypeError as e:
                 self.log.warn(f'{ENV_DOTDROP_MIME_TEXT} parsing: {e}')
                 self.mime_text = []
+            except AttributeError as e:
+                self.log.warn(f'{ENV_DOTDROP_MIME_TEXT} parsing: {e}')
+                self.mime_text = []
+
         loader1 = FileSystemLoader(self.base)
         loader2 = FunctionLoader(self._template_loader)
         loader = ChoiceLoader([loader1, loader2])
