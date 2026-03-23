@@ -7,7 +7,7 @@ name = 'dotdrop'
 description = 'Save your dotfiles once, deploy them everywhere'
 readme = 'README.md'
 authors = [ {name = 'deadc0de6', email = 'deadc0de6@foo.bar'}, ]
-license = 'GPL-3.0'
+license = { text = "GPL-3.0" }
 requires-python = ">=3"
 classifiers = [
     'Development Status :: 5 - Production/Stable',
